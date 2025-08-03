@@ -1,0 +1,55 @@
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../app/generated/prisma"
+  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 채팅방 모델
+model ChatRoom {
+  id        String   @id @default(cuid())
+  title     String   // 채팅방 제목 (첫 번째 메시지나 사용자가 설정)
+  userId    Int      // 채팅방 소유자
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // 관계
+  user     User      @relation(fields: [userId], references: [id])
+  messages Message[]
+  
+  @@map("chat_rooms")
+}
+
+// 메시지 모델  
+model Message {
+  id         String   @id @default(cuid())
+  content    String   // 메시지 내용
+  role       Role     // 사용자 또는 AI 역할
+  chatRoomId String   // 어떤 채팅방의 메시지인지
+  createdAt  DateTime @default(now())
+  
+  // 관계
+  chatRoom ChatRoom @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
+  
+  @@map("messages")
+}
+
+// 역할 열거형
+enum Role {
+  USER
+  ASSISTANT
+}
+
+// 기존 User 모델 수정
+model User {
+  id       Int        @id @default(autoincrement())
+  email    String     @unique
+  name     String?
+  
+  // 관계
+  chatRooms ChatRoom[] // 사용자가 소유한 채팅방들
+}

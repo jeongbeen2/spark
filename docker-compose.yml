@@ -12,15 +12,16 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - PORT=5173
       # DB 접속 정보 (예시)
-      - DATABASE_URL=postgresql://dev:root@db:5432/langflow
+      - DATABASE_URL=postgresql://dev:root@db:5432/spark 
     stdin_open: true
     tty: true
     depends_on:
       - db  # db 서비스가 먼저 실행된 후 frontend-dev 실행
 
   db:
-    container_name: t2w-db
+    container_name: spark-db
     image: postgres:17
     ports:
       - "5432:5432"
@@ -29,7 +30,7 @@ services:
     environment:
       POSTGRES_USER: dev
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: langflow
+      POSTGRES_DB: spark
     restart: always
 
 volumes:
