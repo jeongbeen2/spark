@@ -1,7 +1,8 @@
 export interface Message {
-    id: string;
-    chat: string;
-    role: "user" | "assistant";
+  id: string;
+    chatRoomId: string;
+    content: string;
+    role: "USER" | "ASSISTANT";
     createdAt: string;
   }
   
