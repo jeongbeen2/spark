@@ -1,4 +1,3 @@
-https://vercel.com/jeongbeen2s-projects/spark
 
 ## Core
 - TypeScript
