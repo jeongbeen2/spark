@@ -1,10 +1,14 @@
 "use client";
 import React, { useState } from 'react';
+import useStore from '@/lib/store';
+import { useRouter } from 'next/navigation';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const { user, setUser } = useStore();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -13,9 +17,14 @@ const LoginPage = () => {
     // TODO: 로그인 로직 구현
     console.log('로그인 시도:', { email, password });
     
-    // 임시 로딩 시뮬레이션
     setTimeout(() => {
       setIsLoading(false);
+      setUser({
+        id: "1",
+        name: 'jay',
+        email: email,
+      });
+      router.push('/chat');
     }, 1000);
   };
 

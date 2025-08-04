@@ -6,11 +6,13 @@ import { useRouter } from "next/navigation";
 import { ChatRoom } from "@prisma/client";
 import Loading from "../components/Loading";
 import { useQueryClient } from "@tanstack/react-query";
+import useStore from "@/lib/store";
 
 const ChatPage = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
+  const { user } = useStore()
 
 
   const getRooms = async () => {
